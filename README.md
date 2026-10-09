@@ -25,7 +25,7 @@ yangcheng-lake-trip/
 ```bash
 cd yangcheng-lake-trip
 node server.js
-# 浏览器打开 http://localhost:3000
+# 浏览器打开 http://localhost:3001
 ```
 > 注意：现在是联网版，**不能再直接双击 index.html 打开**（那样 /api 无法访问）。本地测试必须通过上面的命令跑起来。
 
@@ -39,7 +39,7 @@ node server.js
 cd /root/yangcheng-lake-trip
 bash deploy.sh          # 想用 80 端口： PORT=80 bash deploy.sh
 ```
-> 脚本代替不了的唯一一步：到**阿里云控制台→安全组**放行 TCP 3000 端口（见下方第 3 步）。
+> 脚本代替不了的唯一一步：到**阿里云控制台→安全组**放行 TCP 3001 端口（见下方第 3 步）。
 
 ---
 下面是手动分步（想了解细节或脚本失败时用）：
@@ -63,13 +63,13 @@ scp -r "yangcheng-lake-trip" root@<你的公网IP>:/root/
 
 ### 3) 放行端口（关键，否则朋友访问不了）
 - **阿里云控制台** → 该实例 → **安全组** → 配置规则 → 入方向 → 手动添加：
-  协议 **TCP**，端口 **3000**，授权对象 **0.0.0.0/0**。
+  协议 **TCP**，端口 **3001**，授权对象 **0.0.0.0/0**。
 - 如果服务器系统防火墙开着，也要放行：
   ```bash
   # firewalld（CentOS/Alinux）
-  sudo firewall-cmd --permanent --add-port=3000/tcp && sudo firewall-cmd --reload
+  sudo firewall-cmd --permanent --add-port=3001/tcp && sudo firewall-cmd --reload
   # ufw（Ubuntu）
-  sudo ufw allow 3000/tcp
+  sudo ufw allow 3001/tcp
   ```
 
 ### 4) 启动（后台常驻，推荐 pm2 开机自启）
@@ -90,14 +90,14 @@ pm2 stop yangcheng
 
 ### 5) 把链接发群里
 ```
-http://<你的公网IP>:3000
+http://<你的公网IP>:3001
 ```
 13 个人手机点开即可一起投票 / 记账 🦀。
 
 ---
 
 ## 常见问题
-- **想用 80 端口**（链接不带 `:3000`）：`PORT=80 pm2 start server.js --name yangcheng`（需 root）。注意：用**域名** + 80/443 需完成 ICP 备案；**直接用公网 IP + 3000 端口不需要备案**，最省事。
+- **想用 80 端口**（链接不带 `:3001`）：`PORT=80 pm2 start server.js --name yangcheng`（需 root）。注意：用**域名** + 80/443 需完成 ICP 备案；**直接用公网 IP + 3001 端口不需要备案**，最省事。
 - **清空全部数据**：`pm2 stop yangcheng && rm data.json && pm2 start yangcheng`。
 - **备份数据**：复制 `data.json` 即可。
 - **改每车人数**：改 `server.js` 和 `index.html` 里的 `CAR_CAP`（两处要一致）后重启。

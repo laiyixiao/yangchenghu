@@ -1,7 +1,7 @@
 /* ============================================================
    阳澄湖·蟹逅之旅 —— 零依赖后端
    功能：托管 index.html + 提供 /api 共享数据（投票/记账/留言/想法）
-   运行：node server.js         （默认端口 3000）
+   运行：node server.js         （默认端口 3001）
         PORT=80 node server.js  （用 80，需 root）
    数据：存在同目录 data.json（自动创建）；备份=复制此文件，清空=删掉它重启
    ============================================================ */
@@ -9,7 +9,7 @@ const http = require('http');
 const fs   = require('fs');
 const path = require('path');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const ROOT = __dirname;
 const DATA_FILE = path.join(ROOT, 'data.json');
 const CAR_CAP = 4; // 每辆车 4 人（含司机），需与前端一致
