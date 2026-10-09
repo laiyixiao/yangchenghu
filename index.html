@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>阳澄湖·蟹逅之旅</title>
+<meta name="description" content="13人阳澄湖2天1夜团建 · 苏州凯悦 · 出发投票 / 记账 / 行程一站搞定" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+/* ========================================================================
+   设计令牌 —— 蟹逅之旅主题（活泼蟹趣风）
+   ======================================================================== */
+:root{
+  --crab:#E8542A;        /* 蒸蟹橙红 · 主色 */
+  --crab-deep:#C23E1C;   /* 按下/深 */
+  --crab-soft:#FF8A5C;   /* 浅橙 */
+  --roe:#F4A72C;         /* 蟹黄金 · 高亮 */
+  --lake:#2E9E8F;        /* 阳澄湖青绿 · 冷调对比 */
+  --lake-deep:#1F7A6E;
+  --grape:#7C6FE8;       /* 门票类点缀 */
+
+  --cream:#FFF6EC;       /* 暖奶油底 */
+  --cream-2:#FFEFE0;
+  --card:#FFFFFF;
+  --ink:#4A271A;         /* 深棕文字 */
+  --ink-soft:#9A7A66;    /* 次要文字 */
+  --border:#F3DEC9;      /* 暖边框 */
+  --good:#2E9E8F;
+  --bad:#DC2626;
+
+  --radius:20px;
+  --radius-sm:14px;
+  --shadow:0 10px 30px -12px rgba(200,80,30,.28);
+  --shadow-sm:0 4px 14px -6px rgba(200,80,30,.22);
+
+  --font-display:'Fredoka','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+  --font-body:'Nunito','PingFang SC','Microsoft YaHei',system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --cream:#241610; --cream-2:#2E1C13; --card:#30201700; --card:#33231A;
+    --ink:#FBE9DC; --ink-soft:#C7A390; --border:#4A3326;
+    --shadow:0 10px 30px -12px rgba(0,0,0,.55);
+    --shadow-sm:0 4px 14px -6px rgba(0,0,0,.5);
+  }
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:var(--cream);
+  line-height:1.55;
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+/* 柔和的蟹橙 / 湖青光斑背景 */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(42vh 42vh at 85% -5%, rgba(244,167,44,.22), transparent 70%),
+    radial-gradient(50vh 50vh at -10% 15%, rgba(232,84,42,.16), transparent 70%),
+    radial-gradient(60vh 60vh at 50% 115%, rgba(46,158,143,.14), transparent 70%);
+}
+
+/* 布局：手机优先的居中列 */
+.app{max-width:620px;margin:0 auto;padding:0 16px calc(96px + env(safe-area-inset-bottom));}
+section.view{display:none;animation:fade .4s ease both}
+section.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* 通用卡片 */
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px;box-shadow:var(--shadow-sm);margin-bottom:14px;
+}
+.card h2,.card h3{font-family:var(--font-display)}
+.sec-title{display:flex;align-items:center;gap:9px;font-family:var(--font-display);
+  font-size:19px;font-weight:600;margin:22px 2px 12px;color:var(--ink)}
+.sec-title .em{font-size:22px}
+.muted{color:var(--ink-soft)}
+.pill{display:inline-flex;align-items:center;gap:5px;background:var(--cream-2);
+  border:1px solid var(--border);border-radius:999px;padding:4px 11px;font-size:13px;font-weight:600}
+
+/* 顶部英雄区 */
+.hero{
+  position:relative;overflow:hidden;border-radius:26px;color:#fff;
+  background:linear-gradient(135deg,var(--crab) 0%,#F06A33 48%,var(--roe) 115%);
+  padding:26px 22px 22px;margin:16px 0 14px;box-shadow:var(--shadow);
+}
+.hero::after{content:"🦀";position:absolute;right:-6px;bottom:-14px;font-size:120px;
+  opacity:.16;transform:rotate(-12deg)}
+.hero .kicker{font-weight:700;letter-spacing:.14em;font-size:12px;opacity:.9;text-transform:uppercase}
+.hero h1{font-family:var(--font-display);font-weight:700;font-size:34px;line-height:1.1;margin:4px 0 10px}
+.hero .meta{display:flex;flex-wrap:wrap;gap:7px}
+.hero .meta .pill{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.35);color:#fff;backdrop-filter:blur(4px)}
+
+/* 倒计时 */
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:16px}
+.cd-cell{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);
+  border-radius:14px;padding:10px 4px;text-align:center}
+.cd-cell b{font-family:var(--font-display);font-size:26px;font-weight:700;display:block;line-height:1}
+.cd-cell span{font-size:11px;opacity:.9}
+
+/* 统计数字 */
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:13px 8px;text-align:center;box-shadow:var(--shadow-sm)}
+.stat b{font-family:var(--font-display);font-size:25px;font-weight:700;color:var(--crab);display:block;line-height:1.1}
+.stat.lake b{color:var(--lake)}
+.stat.roe b{color:var(--roe)}
+.stat span{font-size:12px;color:var(--ink-soft)}
+
+/* 快捷入口 */
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.quick button{display:flex;align-items:center;gap:10px;text-align:left}
+.quick .ic{width:38px;height:38px;flex:0 0 38px;border-radius:12px;display:grid;place-items:center;background:var(--cream-2)}
+.quick b{font-family:var(--font-display);font-size:15px}
+.quick small{display:block;color:var(--ink-soft);font-size:11.5px;font-weight:600}
+
+/* 表单控件 */
+label.fld{display:block;font-size:13px;font-weight:700;color:var(--ink-soft);margin:12px 0 6px}
+input[type=text],input[type=number],select,textarea{
+  width:100%;font-family:var(--font-body);font-size:16px;color:var(--ink);
+  background:var(--cream);border:1.5px solid var(--border);border-radius:12px;
+  padding:11px 13px;transition:border-color .15s,box-shadow .15s;
+}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--crab);box-shadow:0 0 0 3px rgba(232,84,42,.15)}
+textarea{resize:vertical;min-height:56px}
+
+/* 分段选择（出发地） */
+.seg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;background:var(--cream-2);
+  border:1px solid var(--border);border-radius:14px;padding:4px}
+.seg label{position:relative;cursor:pointer}
+.seg input{position:absolute;opacity:0;inset:0}
+.seg span{display:block;text-align:center;padding:9px 2px;border-radius:10px;font-weight:700;font-size:14px;transition:.18s}
+.seg input:checked + span{background:var(--crab);color:#fff;box-shadow:var(--shadow-sm)}
+.seg input:focus-visible + span{box-shadow:0 0 0 3px rgba(232,84,42,.35)}
+
+/* 开关 */
+.switch{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--cream);border:1.5px solid var(--border);border-radius:12px;padding:10px 13px;margin-top:12px}
+.switch b{font-weight:700}
+.toggle{position:relative;width:50px;height:28px;flex:0 0 50px;cursor:pointer}
+.toggle input{position:absolute;opacity:0}
+.toggle .tr{position:absolute;inset:0;background:#D9C4B2;border-radius:999px;transition:.2s}
+.toggle .tr::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.toggle input:checked + .tr{background:var(--lake)}
+.toggle input:checked + .tr::after{transform:translateX(22px)}
+
+/* 按钮 */
+button{font-family:var(--font-body);cursor:pointer;border:none;background:none;color:inherit}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  background:var(--crab);color:#fff;font-weight:800;font-size:15.5px;
+  border-radius:13px;padding:12px 18px;width:100%;min-height:48px;
+  box-shadow:var(--shadow-sm);transition:transform .12s,background .15s,box-shadow .15s}
+.btn:hover{background:var(--crab-deep)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--cream-2);color:var(--ink);border:1.5px solid var(--border);box-shadow:none}
+.btn.ghost:hover{background:var(--border)}
+.btn.lake{background:var(--lake)}.btn.lake:hover{background:var(--lake-deep)}
+.btn.sm{width:auto;min-height:38px;padding:7px 13px;font-size:13.5px;border-radius:10px}
+.btn.danger{background:#fff;color:var(--bad);border:1.5px solid #F3C9C9;box-shadow:none}
+
+/* 列表项 */
+.row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px dashed var(--border)}
+.row:last-child{border-bottom:none}
+.row .av{width:38px;height:38px;flex:0 0 38px;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:700;color:#fff;background:var(--crab);font-size:15px}
+.row .main{flex:1;min-width:0}
+.row .main b{font-weight:700;font-size:15px}
+.row .main small{display:block;color:var(--ink-soft);font-size:12.5px}
+.row .amt{font-family:var(--font-display);font-weight:700;font-size:16px}
+.tagx{font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;color:#fff}
+
+/* 环形图 */
+.donut-wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.donut{position:relative;width:132px;height:132px;flex:0 0 132px;border-radius:50%}
+.donut .hole{position:absolute;inset:20px;background:var(--card);border-radius:50%;display:grid;place-items:center;text-align:center}
+.donut .hole b{font-family:var(--font-display);font-size:20px;font-weight:700;line-height:1}
+.donut .hole span{font-size:11px;color:var(--ink-soft)}
+.legend{flex:1;min-width:150px}
+.legend .li{display:flex;align-items:center;gap:8px;font-size:13.5px;padding:3px 0}
+.legend .dot{width:11px;height:11px;border-radius:3px;flex:0 0 11px}
+.legend .li b{margin-left:auto;font-family:var(--font-display)}
+
+/* 结算条 */
+.settle{display:flex;align-items:center;gap:8px;background:var(--cream-2);border:1px solid var(--border);
+  border-radius:12px;padding:10px 12px;margin-bottom:8px;font-size:14px}
+.settle .ar{color:var(--crab);font-weight:800}
+.settle b{font-family:var(--font-display)}
+
+/* 时间轴 */
+.timeline{position:relative;padding-left:30px}
+.timeline::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2.5px;
+  background:linear-gradient(var(--crab),var(--roe),var(--lake))}
+.tl-item{position:relative;margin-bottom:16px}
+.tl-item::before{content:"";position:absolute;left:-26px;top:4px;width:14px;height:14px;border-radius:50%;
+  background:var(--card);border:3px solid var(--crab);box-shadow:0 0 0 3px var(--cream)}
+.tl-item.lake::before{border-color:var(--lake)}
+.tl-item.roe::before{border-color:var(--roe)}
+.tl-time{font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--crab)}
+.tl-item.lake .tl-time{color:var(--lake)}.tl-item.roe .tl-time{color:var(--roe)}
+.tl-item .bd{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:11px 14px;margin-top:4px;box-shadow:var(--shadow-sm)}
+.tl-item .bd b{font-weight:700}
+.tl-item .bd p{font-size:13px;color:var(--ink-soft);margin-top:2px}
+.day-chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:700;
+  background:var(--crab);color:#fff;border-radius:999px;padding:6px 16px;font-size:15px;margin:4px 0 14px;box-shadow:var(--shadow-sm)}
+.day-chip.d2{background:var(--lake)}
+
+/* 清单 */
+.check{display:flex;align-items:center;gap:11px;padding:10px 2px;border-bottom:1px dashed var(--border)}
+.check:last-child{border-bottom:none}
+.check input{width:22px;height:22px;flex:0 0 22px;accent-color:var(--lake);cursor:pointer}
+.check label{flex:1;font-size:15px;cursor:pointer}
+.check input:checked + label{color:var(--ink-soft);text-decoration:line-through}
+
+/* 留言 */
+.msg{background:var(--cream-2);border:1px solid var(--border);border-radius:14px;padding:11px 13px;margin-bottom:9px}
+.msg .top{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.msg .top b{font-weight:800;font-size:13.5px}
+.msg .top small{color:var(--ink-soft);font-size:11.5px;margin-left:auto}
+.msg p{font-size:14.5px;white-space:pre-wrap;word-break:break-word}
+
+/* 空状态 */
+.empty{text-align:center;color:var(--ink-soft);padding:22px 10px}
+.empty .big{font-size:40px;opacity:.5;margin-bottom:6px}
+
+/* 底部导航 */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:50;
+  background:color-mix(in srgb,var(--card) 88%,transparent);
+  backdrop-filter:blur(14px);border-top:1px solid var(--border);
+  padding:7px 6px calc(7px + env(safe-area-inset-bottom));
+  display:grid;grid-template-columns:repeat(5,1fr);max-width:620px;margin:0 auto}
+.nav button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 2px;
+  color:var(--ink-soft);font-size:11px;font-weight:700;border-radius:12px;min-height:52px;transition:color .15s}
+.nav button svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nav button.active{color:var(--crab)}
+.nav button.active svg{fill:rgba(232,84,42,.14)}
+
+/* 浮现动画 */
+.reveal{opacity:0;transform:translateY(16px)}
+.reveal.in{opacity:1;transform:none;transition:opacity .5s ease,transform .5s cubic-bezier(.22,1,.36,1)}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+  .reveal{opacity:1;transform:none}
+}
+
+.flex{display:flex;gap:10px;align-items:center}
+.wrap{flex-wrap:wrap}
+.mt{margin-top:12px}
+.right{margin-left:auto}
+.weather-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wx{background:var(--cream-2);border:1px solid var(--border);border-radius:14px;padding:12px;text-align:center}
+.wx .ico{font-size:30px}.wx b{font-family:var(--font-display);display:block}
+.wx .t{font-size:14px;font-weight:700}.wx small{color:var(--ink-soft);font-size:12px}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ 首页 ============ -->
+  <section class="view active" id="view-home">
+    <div class="hero reveal">
+      <div class="kicker">Oct 17–18 · 蟹逅之旅</div>
+      <h1>阳澄湖<br/>蟹逅之旅 🦀</h1>
+      <div class="meta">
+        <span class="pill">📅 10.17–10.18</span>
+        <span class="pill">🏨 苏州凯悦</span>
+        <span class="pill">👥 13人</span>
+      </div>
+      <div class="countdown" id="countdown">
+        <div class="cd-cell"><b id="cd-d">–</b><span>天</span></div>
+        <div class="cd-cell"><b id="cd-h">–</b><span>时</span></div>
+        <div class="cd-cell"><b id="cd-m">–</b><span>分</span></div>
+        <div class="cd-cell"><b id="cd-s">–</b><span>秒</span></div>
+      </div>
+    </div>
+
+    <div class="stat-row reveal">
+      <div class="stat"><b id="home-people">0</b><span>已报名</span></div>
+      <div class="stat lake"><b id="home-cars">0</b><span>自驾车辆</span></div>
+      <div class="stat roe"><b id="home-spent">¥0</b><span>已花费</span></div>
+    </div>
+
+    <div class="sec-title"><span class="em">🌤️</span>阳澄湖天气</div>
+    <div class="card reveal">
+      <div class="weather-grid" id="weather">
+        <div class="wx"><div class="ico">⏳</div><b>加载中…</b></div>
+        <div class="wx"><div class="ico">⏳</div><b>加载中…</b></div>
+      </div>
+    </div>
+
+    <div class="sec-title"><span class="em">⚡</span>快捷入口</div>
+    <div class="quick reveal">
+      <button class="card" data-go="vote"><div class="ic">🚗</div><div><b>出发投票</b><small>定车辆 / 拼车</small></div></button>
+      <button class="card" data-go="trip"><div class="ic">🗺️</div><div><b>行程安排</b><small>两天时间轴</small></div></button>
+      <button class="card" data-go="expense"><div class="ic">🧾</div><div><b>记账 AA</b><small>花费 / 结算</small></div></button>
+      <button class="card" data-go="tools"><div class="ic">🧰</div><div><b>实用工具</b><small>清单 / 留言</small></div></button>
+    </div>
+  </section>
+
+  <!-- ============ 投票 ============ -->
+  <section class="view" id="view-vote">
+    <div class="sec-title"><span class="em">🚗</span>出发投票 · 车辆统计</div>
+
+    <div class="card reveal">
+      <b style="font-family:var(--font-display);font-size:16px">填一下你的出发安排</b>
+      <label class="fld">你的名字</label>
+      <input type="text" id="v-name" placeholder="例如：阿强" maxlength="12" />
+      <label class="fld">从哪里出发？</label>
+      <div class="seg">
+        <label><input type="radio" name="from" value="city" checked/><span>市区</span></label>
+        <label><input type="radio" name="from" value="jinshan"/><span>金山</span></label>
+        <label><input type="radio" name="from" value="either"/><span>都可以</span></label>
+      </div>
+      <div class="switch">
+        <b>🚙 我有车可以开</b>
+        <label class="toggle"><input type="checkbox" id="v-car"/><span class="tr"></span></label>
+      </div>
+      <div id="v-driver-note" class="mt" style="display:none;font-size:13px;color:var(--lake);font-weight:700">✓ 你将作为司机加入车辆列表（每车 4 人，含司机）</div>
+      <div id="v-car-pick-wrap">
+        <label class="fld">选择要搭乘的车辆</label>
+        <select id="v-car-pick"></select>
+      </div>
+      <button class="btn mt" id="v-submit">提交 / 更新我的投票</button>
+    </div>
+
+    <div class="stat-row reveal">
+      <div class="stat"><b id="t-city">0</b><span>市区出发</span></div>
+      <div class="stat lake"><b id="t-jinshan">0</b><span>金山出发</span></div>
+      <div class="stat roe"><b id="t-either">0</b><span>都可以</span></div>
+    </div>
+    <div class="sec-title"><span class="em">🚗</span>车辆分配 <span class="muted" style="font-size:14px;font-weight:600" id="car-count"></span></div>
+    <div class="card reveal" id="car-list"></div>
+
+    <div class="sec-title"><span class="em">📋</span>报名名单 <span class="muted" style="font-size:14px;font-weight:600" id="vote-count"></span></div>
+    <div class="card reveal" id="vote-list"></div>
+  </section>
+
+  <!-- ============ 行程 ============ -->
+  <section class="view" id="view-trip">
+    <div class="sec-title"><span class="em">🗺️</span>行程安排</div>
+    <div class="card reveal" style="background:linear-gradient(135deg,rgba(46,158,143,.12),rgba(244,167,44,.12))">
+      <b style="font-family:var(--font-display);font-size:16px">🦀 10月阳澄湖蟹黄膏肥，秋高气爽正当时</b>
+      <p class="muted" style="font-size:13.5px;margin-top:4px">节奏轻松、留足自由活动。酒店临金鸡湖，诚品书店 / 李公堤步行可达。时间仅供参考，想改随时说。</p>
+    </div>
+
+    <div class="day-chip">Day 1 · 10.17 周五</div>
+    <div class="timeline reveal">
+      <div class="tl-item"><div class="tl-time">10:00</div><div class="bd"><b>两地集合出发</b><p>市区 / 金山分头出发，按投票拼车，车程约 1–1.5h</p></div></div>
+      <div class="tl-item roe"><div class="tl-time">11:30</div><div class="bd"><b>阳澄湖 · 午餐 🦀</b><p>湖畔餐厅，开吃头一顿大闸蟹</p></div></div>
+      <div class="tl-item lake"><div class="tl-time">13:30</div><div class="bd"><b>阳澄湖溜达</b><p>湖边散步、莲花岛 / 美人腿，拍照消食</p></div></div>
+      <div class="tl-item"><div class="tl-time">15:30</div><div class="bd"><b>入住苏州凯悦酒店</b><p>Check-in 放行李，临金鸡湖，去哪都方便</p></div></div>
+      <div class="tl-item roe"><div class="tl-time">16:30</div><div class="bd"><b>晚饭前自由活动</b><p>各自逛：诚品书店、金鸡湖 / 李公堤、月光码头，散步喝咖啡</p></div></div>
+      <div class="tl-item"><div class="tl-time">18:30</div><div class="bd"><b>周边聚餐晚饭</b><p>找家餐厅一起吃（李公堤 / 月光码头餐厅集中）</p></div></div>
+      <div class="tl-item lake"><div class="tl-time">20:30</div><div class="bd"><b>酒店桌游之夜 🎲</b><p>回酒店开桌游，狼人杀 / 剧本 / 小游戏随意</p></div></div>
+    </div>
+
+    <div class="day-chip d2">Day 2 · 10.18 周六</div>
+    <div class="timeline reveal">
+      <div class="tl-item lake"><div class="tl-time">自由</div><div class="bd"><b>上午自由活动</b><p>睡到自然醒、酒店早餐；想动的可逛金鸡湖 / 诚品，或泳池健身房</p></div></div>
+      <div class="tl-item roe"><div class="tl-time">12:00</div><div class="bd"><b>周边聚餐午饭 · 退房</b><p>一起吃个午饭，退房准备返程</p></div></div>
+      <div class="tl-item"><div class="tl-time">13:30</div><div class="bd"><b>返程 · 沿途打卡</b><p>苏州→上海一路水乡古镇多，挑一个驻足半天 👇</p></div></div>
+    </div>
+
+    <div class="sec-title"><span class="em">📍</span>返程途中推荐</div>
+    <div class="card reveal">
+      <p class="muted" style="font-size:13px;margin-bottom:4px">苏州回上海沿途都是江南水乡，按回 <b>市区 / 金山</b> 的方向顺路挑一个，逛逛吃个下午茶：</p>
+      <div style="display:flex;gap:11px;padding:12px 0;border-bottom:1px dashed var(--border)">
+        <div style="font-size:25px">🛶</div><div style="flex:1">
+          <div class="flex"><b style="font-family:var(--font-display);font-size:15px">甪直古镇</b><span class="right tagx" style="background:var(--roe)">都顺路</span></div>
+          <p class="muted" style="font-size:12.5px;margin-top:2px">2500 年江南水乡，保圣寺、沈宅，离苏州最近、相对清净 · 距苏州约 30min</p></div>
+      </div>
+      <div style="display:flex;gap:11px;padding:12px 0;border-bottom:1px dashed var(--border)">
+        <div style="font-size:25px">🌉</div><div style="flex:1">
+          <div class="flex"><b style="font-family:var(--font-display);font-size:15px">锦溪古镇</b><span class="right tagx" style="background:var(--roe)">都顺路</span></div>
+          <p class="muted" style="font-size:12.5px;margin-top:2px">"中国民间博物馆之乡"，古桥小巷、莲池禅院，比周庄安静 · 约 40min</p></div>
+      </div>
+      <div style="display:flex;gap:11px;padding:12px 0;border-bottom:1px dashed var(--border)">
+        <div style="font-size:25px">🏯</div><div style="flex:1">
+          <div class="flex"><b style="font-family:var(--font-display);font-size:15px">周庄古镇</b><span class="right tagx" style="background:var(--roe)">都顺路</span></div>
+          <p class="muted" style="font-size:12.5px;margin-top:2px">"中国第一水乡"，双桥、沈厅，最经典但人也最多 · 约 50min</p></div>
+      </div>
+      <div style="display:flex;gap:11px;padding:12px 0;border-bottom:1px dashed var(--border)">
+        <div style="font-size:25px">📜</div><div style="flex:1">
+          <div class="flex"><b style="font-family:var(--font-display);font-size:15px">千灯古镇</b><span class="right tagx" style="background:var(--roe)">都顺路</span></div>
+          <p class="muted" style="font-size:12.5px;margin-top:2px">顾炎武故居、石板长街，低调小众、基本免门票 · 约 45min</p></div>
+      </div>
+      <div style="display:flex;gap:11px;padding:12px 0;border-bottom:1px dashed var(--border)">
+        <div style="font-size:25px">⛩️</div><div style="flex:1">
+          <div class="flex"><b style="font-family:var(--font-display);font-size:15px">朱家角古镇</b><span class="right tagx" style="background:var(--crab)">回市区顺路</span></div>
+          <p class="muted" style="font-size:12.5px;margin-top:2px">上海青浦，放生桥、课植园，临淀山湖，离市区最近，当最后一站正好</p></div>
+      </div>
+      <div style="display:flex;gap:11px;padding:12px 0">
+        <div style="font-size:25px">🥢</div><div style="flex:1">
+          <div class="flex"><b style="font-family:var(--font-display);font-size:15px">枫泾古镇</b><span class="right tagx" style="background:var(--lake)">回金山顺路</span></div>
+          <p class="muted" style="font-size:12.5px;margin-top:2px">就在金山区，水乡+枫泾丁蹄、状元糕，金山的朋友返程顺手逛</p></div>
+      </div>
+    </div>
+
+    <div class="sec-title"><span class="em">💡</span>想法 & 建议</div>
+    <div class="card reveal">
+      <p class="muted" style="font-size:13px;margin-bottom:8px">对行程有想法？想去哪、想吃啥、时间想调，写下来贴在这 👇</p>
+      <div class="flex">
+        <input type="text" id="note-name" placeholder="名字" style="flex:0 0 84px" maxlength="12"/>
+        <select id="note-tag" style="flex:1">
+          <option value="整体">整体行程</option>
+          <option value="Day1 白天">Day1 白天</option>
+          <option value="Day1 晚上">Day1 晚上</option>
+          <option value="Day2">Day2</option>
+          <option value="返程">返程</option>
+          <option value="吃的 🍜">吃的 🍜</option>
+          <option value="其他">其他</option>
+        </select>
+      </div>
+      <textarea id="note-text" class="mt" placeholder="写下你的想法 / 建议…" maxlength="200"></textarea>
+      <button class="btn sm mt" id="note-add" style="width:100%">＋ 添加想法</button>
+      <div class="mt" id="note-list"></div>
+    </div>
+  </section>
+
+  <!-- ============ 记账 ============ -->
+  <section class="view" id="view-expense">
+    <div class="sec-title"><span class="em">🧾</span>记账 · AA 分摊</div>
+
+    <div class="card reveal" style="text-align:center;background:linear-gradient(135deg,var(--crab),#F06A33);color:#fff">
+      <span style="opacity:.9;font-size:13px;font-weight:700">本次旅行总花费</span>
+      <div style="font-family:var(--font-display);font-size:38px;font-weight:700;line-height:1.1" id="exp-total">¥0</div>
+      <span style="opacity:.9;font-size:13px" id="exp-perhead">人均 ¥0</span>
+    </div>
+
+    <button class="btn mt reveal" id="exp-add-btn">＋ 记一笔</button>
+
+    <div class="sec-title"><span class="em">📊</span>分类占比</div>
+    <div class="card reveal" id="exp-chart"></div>
+
+    <div class="sec-title"><span class="em">💸</span>谁该给谁（最少转账）</div>
+    <div class="card reveal" id="exp-settle"></div>
+
+    <div class="sec-title"><span class="em">🧾</span>明细</div>
+    <div class="card reveal" id="exp-list"></div>
+  </section>
+
+  <!-- ============ 工具 ============ -->
+  <section class="view" id="view-tools">
+    <div class="sec-title"><span class="em">🎒</span>行李清单</div>
+    <div class="card reveal">
+      <div id="pack-list"></div>
+      <div class="flex mt">
+        <input type="text" id="pack-new" placeholder="添加自定义物品…" />
+        <button class="btn sm lake" id="pack-add" style="flex:0 0 auto">添加</button>
+      </div>
+    </div>
+
+    <div class="sec-title"><span class="em">💬</span>群留言板</div>
+    <div class="card reveal">
+      <div class="flex">
+        <input type="text" id="msg-name" placeholder="名字" style="flex:0 0 90px" maxlength="12"/>
+        <input type="text" id="msg-text" placeholder="说点什么…" maxlength="120"/>
+      </div>
+      <button class="btn sm mt" id="msg-send" style="width:100%">发布留言</button>
+      <div class="mt" id="msg-list"></div>
+    </div>
+
+    <div class="sec-title"><span class="em">☁️</span>关于</div>
+    <div class="card reveal">
+      <p style="font-size:13.5px;display:flex;align-items:center;gap:7px"><span id="net-dot" style="width:9px;height:9px;border-radius:50%;background:var(--ink-soft);display:inline-block" title="连接中"></span><b>多人实时同步</b>（投票 / 记账 / 想法 / 留言，约几秒刷新一次）</p>
+      <p class="muted" style="font-size:12.5px;margin-top:8px">把本页链接发到群里，13 人手机点开即可一起用 🦀。行李清单的勾选是你个人的，只存在本机。</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- 底部导航 -->
+<nav class="nav">
+  <button class="active" data-go="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>首页</button>
+  <button data-go="vote"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>投票</button>
+  <button data-go="trip"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>行程</button>
+  <button data-go="expense"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg>记账</button>
+  <button data-go="tools"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.1 2.1-2-2 2.1-2.1z"/></svg>工具</button>
+</nav>
+
+<script>
+/* ========================================================================
+   数据层 —— 多人实时同步版
+   投票 / 记账 / 留言 / 想法 存在服务器（/api），所有人每隔几秒自动同步。
+   行李清单勾选是“个人”数据，保留在本机 localStorage。
+   ======================================================================== */
+const API = {
+  async state(){ const r=await fetch('/api/state',{cache:'no-store'}); if(!r.ok) throw '网络错误'; return r.json(); },
+  async op(body){
+    const r=await fetch('/api/op',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const j=await r.json().catch(()=>({})); if(!r.ok) throw (j.error||'网络错误'); return j;
+  }
+};
+const LS = {
+  get(k,def){ try{ const v=localStorage.getItem('ych_'+k); return v?JSON.parse(v):def; }catch(e){ return def; } },
+  set(k,v){ try{ localStorage.setItem('ych_'+k,JSON.stringify(v)); }catch(e){} }
+};
+const uid = () => (Date.now().toString(36)+Math.random().toString(36).slice(2,6));
+const yuan = n => '¥'+(Math.round(n*100)/100).toLocaleString('zh-CN',{minimumFractionDigits:0,maximumFractionDigits:2});
+
+// 服务器同步的共享状态
+let members=[], expenses=[], messages=[], tripNotes=[];
+// 本机个人数据（行李清单）
+let packing   = LS.get('packing', null);
+let packChecks= LS.get('packChecks', {});
+
+function applyState(s){ members=s.members||[]; expenses=s.expenses||[]; messages=s.messages||[]; tripNotes=s.tripNotes||[]; }
+let syncT;
+async function sync(silent){
+  try{ applyState(await API.state()); renderShared(); markOnline(true); }
+  catch(e){ markOnline(false); if(!silent) toast('连接服务器失败，请稍后'); }
+}
+function markOnline(ok){ const d=document.getElementById('net-dot'); if(d){ d.style.background=ok?'var(--good)':'var(--bad)'; d.title=ok?'已连接':'离线'; } }
+
+const FROM_LABEL = {city:'市区',jinshan:'金山',either:'都可以'};
+const CAR_CAP = 4; // 默认每辆车 4 人（含司机）
+const CATS = [
+  {key:'food', label:'餐饮', color:'#E8542A', em:'🍜'},
+  {key:'trans',label:'交通', color:'#2E9E8F', em:'🚗'},
+  {key:'hotel',label:'住宿', color:'#F4A72C', em:'🏨'},
+  {key:'ticket',label:'门票',color:'#7C6FE8', em:'🎫'},
+  {key:'shop', label:'购物', color:'#FF8A5C', em:'🛍️'},
+  {key:'other',label:'其他', color:'#9A7A66', em:'📦'},
+];
+const CAT = k => CATS.find(c=>c.key===k)||CATS[5];
+
+const DEFAULT_PACK = ['身份证 / 驾照','手机 + 充电宝','换洗衣物','外套（湖边晚上凉）','舒适的鞋','常用药品','洗漱用品','现金 / 移动支付','相机','蟹八件 🦀'];
+function initPacking(){
+  if(!packing){ packing = DEFAULT_PACK.map(l=>({id:uid(),label:l,fixed:true})); LS.set('packing',packing); }
+}
+
+/* ---------------- 导航 ---------------- */
+function go(name){
+  document.querySelectorAll('section.view').forEach(s=>s.classList.toggle('active', s.id==='view-'+name));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active', b.dataset.go===name));
+  window.scrollTo({top:0,behavior:'instant'});
+  observeReveals();
+}
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+
+/* ---------------- 倒计时 ---------------- */
+const TARGET = new Date('2026-10-17T09:00:00+08:00').getTime();
+function tick(){
+  const diff = TARGET - Date.now();
+  const set=(id,v)=>{const el=document.getElementById(id); if(el) el.textContent=String(v).padStart(2,'0');};
+  if(diff<=0){ ['cd-d','cd-h','cd-m','cd-s'].forEach(i=>set(i,0)); document.querySelector('.hero .kicker').textContent='出发啦！蟹逅之旅进行中 🦀'; return; }
+  const d=Math.floor(diff/864e5), h=Math.floor(diff%864e5/36e5), m=Math.floor(diff%36e5/6e4), s=Math.floor(diff%6e4/1e3);
+  set('cd-d',d);set('cd-h',h);set('cd-m',m);set('cd-s',s);
+}
+setInterval(tick,1000); tick();
+
+/* ---------------- 天气（Open-Meteo，免费无 key，支持跨域） ---------------- */
+const WMO = c => c===0?['☀️','晴']:c<=3?['⛅','多云']:c<=48?['🌫️','雾']:c<=57?['🌦️','毛毛雨']:c<=67?['🌧️','雨']:c<=77?['❄️','雪']:c<=82?['🌦️','阵雨']:c<=86?['🌨️','阵雪']:['⛈️','雷雨'];
+async function loadWeather(){
+  const box=document.getElementById('weather');
+  const fallback=()=>{box.innerHTML=
+    `<div class="wx"><div class="ico">🍂</div><b>10.17 周五</b><div class="t">18° / 25°</div><small>秋高气爽（参考值）</small></div>
+     <div class="wx"><div class="ico">🍂</div><b>10.18 周六</b><div class="t">17° / 24°</div><small>秋高气爽（参考值）</small></div>`;};
+  try{
+    const url='https://api.open-meteo.com/v1/forecast?latitude=31.43&longitude=120.78&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FShanghai&start_date=2026-10-17&end_date=2026-10-18';
+    const r=await fetch(url); if(!r.ok) throw 0;
+    const d=await r.json(); const dd=d.daily;
+    if(!dd||!dd.time||!dd.time.length) throw 0;
+    const names=['周五','周六']; let html='';
+    dd.time.forEach((t,i)=>{ const [em,txt]=WMO(dd.weather_code[i]);
+      html+=`<div class="wx"><div class="ico">${em}</div><b>${t.slice(5).replace('-','.')} ${names[i]||''}</b>
+             <div class="t">${Math.round(dd.temperature_2m_min[i])}° / ${Math.round(dd.temperature_2m_max[i])}°</div><small>${txt}</small></div>`;});
+    box.innerHTML=html;
+  }catch(e){ fallback(); }
+}
+loadWeather();
+
+/* ---------------- 投票 ---------------- */
+const $=id=>document.getElementById(id);
+// 某辆车（司机 driverId）当前乘客（不含司机）；excludeId 用于编辑自己时把自己排除在外
+function occupantsOf(driverId,excludeId){ return members.filter(p=>!p.hasCar && p.carId===driverId && p.id!==excludeId); }
+function freeSeats(driverId,excludeId){ return CAR_CAP - 1 - occupantsOf(driverId,excludeId).length; } // -1 给司机
+// 刷新「选择车辆」下拉：列出所有车，满了的禁选
+function refreshCarOptions(){
+  const wrap=$('v-car-pick-wrap'); if(!wrap) return;
+  const editing=members.find(m=>m.name===$('v-name').value.trim());
+  const exclude=editing?editing.id:null;
+  const cars=members.filter(m=>m.hasCar);
+  if(!cars.length){
+    wrap.innerHTML='<label class="fld">选择要搭乘的车辆</label><p class="muted" style="font-size:13px">还没有朋友登记"有车"，可先选「待定」，有车后再来改。</p>';
+    return;
+  }
+  let opts='<option value="">待定 / 稍后再选</option>';
+  cars.forEach(d=>{ const free=freeSeats(d.id,exclude), full=free<=0;
+    const sel=(editing&&editing.carId===d.id)?'selected':'';
+    opts+=`<option value="${d.id}" ${full?'disabled':''} ${sel}>${esc(d.name)}的车（${FROM_LABEL[d.from]}）· ${full?'已满':'剩'+free+'座'}</option>`; });
+  wrap.innerHTML='<label class="fld">选择要搭乘的车辆</label><select id="v-car-pick">'+opts+'</select>';
+}
+$('v-car').addEventListener('change',e=>{
+  const on=e.target.checked;
+  $('v-driver-note').style.display=on?'block':'none';
+  $('v-car-pick-wrap').style.display=on?'none':'block';
+  if(!on) refreshCarOptions();
+});
+$('v-name').addEventListener('input',()=>{ if(!$('v-car').checked) refreshCarOptions(); });
+$('v-submit').addEventListener('click',async ()=>{
+  const name=$('v-name').value.trim();
+  if(!name){ shake($('v-name')); return; }
+  const from=document.querySelector('input[name=from]:checked').value;
+  const hasCar=$('v-car').checked;
+  const pickEl=$('v-car-pick'); const pick=(!hasCar&&pickEl)?pickEl.value:'';
+  // 车辆分配逻辑由服务器统一处理（避免多人同时投票冲突）
+  try{
+    applyState(await API.op({type:'vote', name, from, hasCar, carId: hasCar?null:(pick||null)}));
+    $('v-name').value=''; $('v-car').checked=false; $('v-driver-note').style.display='none'; $('v-car-pick-wrap').style.display='block';
+    renderShared(); refreshCarOptions(); toast('已记录：'+name+' ✓');
+  }catch(e){
+    if(e==='full'){ toast('这辆车刚满了，换一辆吧 🚗'); await sync(true); refreshCarOptions(); }
+    else toast('提交失败：'+e);
+  }
+});
+function renderVote(){
+  const c={city:0,jinshan:0,either:0};
+  members.forEach(m=>{ if(m.from) c[m.from]++; });
+  $('t-city').textContent=c.city; $('t-jinshan').textContent=c.jinshan; $('t-either').textContent=c.either;
+
+  // ---- 车辆分配 ----
+  const drivers=members.filter(m=>m.hasCar);
+  const unassigned=members.filter(m=>!m.hasCar && !m.carId);
+  $('car-count').textContent='(共'+drivers.length+'辆 · 每车'+CAR_CAP+'人)';
+  if(!drivers.length){
+    $('car-list').innerHTML=emptyState('🚗','还没有车辆','有朋友勾选"我有车可以开"后，车辆会出现在这里');
+  } else {
+    let html=drivers.map(d=>{
+      const occ=[d, ...occupantsOf(d.id,null)];
+      const free=CAR_CAP-occ.length;
+      const seats=occ.map((p,i)=>`<span class="pill" style="${i===0?'background:var(--lake);color:#fff;border-color:var(--lake)':''}">${i===0?'🧑‍✈️ ':''}${esc(p.name)}${i===0?'（司机）':''}</span>`);
+      for(let i=0;i<free;i++) seats.push('<span class="pill" style="border-style:dashed;color:var(--ink-soft)">空座</span>');
+      return `<div style="padding:12px 0;border-bottom:1px dashed var(--border)">
+        <div class="flex"><b style="font-family:var(--font-display);font-size:15px">🚗 ${esc(d.name)}的车</b>
+          <span class="right pill" style="${free<=0?'background:rgba(46,158,143,.16);color:var(--lake)':''}">${FROM_LABEL[d.from]} · ${occ.length}/${CAR_CAP}${free>0?' · 剩'+free:' · 满员'}</span></div>
+        <div class="flex wrap" style="gap:6px;margin-top:8px">${seats.join('')}</div></div>`;
+    }).join('');
+    if(unassigned.length){
+      html+=`<div style="padding-top:12px"><b style="font-size:14px;color:var(--crab)">⏳ 待分配乘客（${unassigned.length}）</b>
+        <div class="flex wrap" style="gap:6px;margin-top:8px">${unassigned.map(m=>`<span class="pill">${esc(m.name)}</span>`).join('')}</div>
+        <p class="muted" style="font-size:12.5px;margin-top:6px">还没选车，可在上方表单用同一名字重新提交并选择车辆。</p></div>`;
+    }
+    $('car-list').innerHTML=html;
+  }
+
+  // ---- 报名名单 ----
+  $('vote-count').textContent='('+members.length+'人)';
+  if(!members.length){ $('vote-list').innerHTML=emptyState('🙋','还没有人投票','填上面的表单，第一个报名吧'); }
+  else {
+    const roleOf=m=>{ if(m.hasCar) return '🚙 司机';
+      if(m.carId){ const d=members.find(x=>x.id===m.carId); return '🧍 坐 '+(d?esc(d.name):'?')+'的车'; }
+      return '⏳ 待分配'; };
+    $('vote-list').innerHTML=members.map(m=>`
+      <div class="row">
+        <div class="av" style="background:${m.from==='jinshan'?'var(--lake)':m.from==='either'?'var(--roe)':'var(--crab)'}">${esc(m.name.slice(0,1))}</div>
+        <div class="main"><b>${esc(m.name)}</b><small>${FROM_LABEL[m.from]||'—'} · ${roleOf(m)}</small></div>
+        <button class="btn danger sm" style="width:auto" onclick="delMember('${m.id}')">删除</button>
+      </div>`).join('');
+  }
+}
+window.delMember=async id=>{
+  if(!confirm('确定删除这位成员？')) return;
+  try{ applyState(await API.op({type:'delMember',id})); renderShared(); }catch(e){ toast('删除失败'); }
+};
+
+/* ---------------- 记账 ---------------- */
+$('exp-add-btn').addEventListener('click',openExpenseForm);
+function openExpenseForm(){
+  if(!members.length){ toast('先去「投票」添加成员，才能分摊哦'); go('vote'); return; }
+  const parts=members.map(m=>m.id);
+  const html=`
+   <div class="card" id="exp-form" style="border:2px solid var(--crab)">
+     <b style="font-family:var(--font-display);font-size:16px">记一笔新花费</b>
+     <label class="fld">用途</label>
+     <input type="text" id="e-title" placeholder="例如：Day1 蟹宴晚餐" maxlength="20"/>
+     <label class="fld">金额（¥）</label>
+     <input type="number" id="e-amt" placeholder="0.00" min="0" step="0.01"/>
+     <label class="fld">分类</label>
+     <select id="e-cat">${CATS.map(c=>`<option value="${c.key}">${c.em} ${c.label}</option>`).join('')}</select>
+     <label class="fld">谁付的</label>
+     <select id="e-payer">${members.map(m=>`<option value="${m.id}">${esc(m.name)}</option>`).join('')}</select>
+     <label class="fld">分摊给（默认全选）</label>
+     <div style="display:flex;flex-wrap:wrap;gap:7px" id="e-parts">
+       ${members.map(m=>`<label class="pill" style="cursor:pointer"><input type="checkbox" value="${m.id}" checked style="width:auto;margin-right:4px">${esc(m.name)}</label>`).join('')}
+     </div>
+     <div class="flex mt">
+       <button class="btn ghost" onclick="closeExpenseForm()">取消</button>
+       <button class="btn" id="e-save">保存</button>
+     </div>
+   </div>`;
+  const btn=$('exp-add-btn'); if($('exp-form')){closeExpenseForm();return;}
+  btn.insertAdjacentHTML('afterend',html);
+  $('e-save').addEventListener('click',saveExpense);
+  $('e-title').focus();
+}
+window.closeExpenseForm=()=>{ const f=$('exp-form'); if(f) f.remove(); };
+async function saveExpense(){
+  const title=$('e-title').value.trim()||'未命名';
+  const amount=parseFloat($('e-amt').value);
+  if(!amount||amount<=0){ shake($('e-amt')); return; }
+  const payerId=$('e-payer').value;
+  const parts=[...document.querySelectorAll('#e-parts input:checked')].map(i=>i.value);
+  if(!parts.length){ toast('至少选一个人分摊'); return; }
+  const expense={id:uid(),title,amount,payerId,parts,cat:$('e-cat').value,ts:Date.now()};
+  try{ applyState(await API.op({type:'addExpense',expense})); closeExpenseForm(); renderShared(); toast('已记账 '+yuan(amount)); }
+  catch(e){ toast('保存失败：'+e); }
+}
+window.delExpense=async id=>{ try{ applyState(await API.op({type:'delExpense',id})); renderShared(); }catch(e){ toast('删除失败'); } };
+
+function renderExpense(){
+  const total=expenses.reduce((s,e)=>s+e.amount,0);
+  $('exp-total').textContent=yuan(total);
+  $('exp-perhead').textContent='人均 '+yuan(members.length?total/members.length:0)+(members.length?'（按'+members.length+'人）':'');
+  // 分类环形图
+  const byCat={}; expenses.forEach(e=>byCat[e.cat]=(byCat[e.cat]||0)+e.amount);
+  const cats=CATS.filter(c=>byCat[c.key]>0);
+  if(!cats.length){ $('exp-chart').innerHTML=emptyState('📊','还没有花费','点上面「记一笔」开始记账'); }
+  else{
+    let acc=0; const stops=cats.map(c=>{ const from=acc/total*360; acc+=byCat[c.key]; const to=acc/total*360; return `${c.color} ${from}deg ${to}deg`; }).join(',');
+    $('exp-chart').innerHTML=`<div class="donut-wrap">
+      <div class="donut" style="background:conic-gradient(${stops})"><div class="hole"><b>${yuan(total)}</b><span>总计</span></div></div>
+      <div class="legend">${cats.map(c=>`<div class="li"><span class="dot" style="background:${c.color}"></span>${c.em} ${c.label}<b>${yuan(byCat[c.key])}</b></div>`).join('')}</div>
+    </div>`;
+  }
+  // 结算
+  $('exp-settle').innerHTML = members.length ? renderSettlement() : emptyState('💸','暂无成员','先去投票添加成员');
+  // 明细
+  if(!expenses.length){ $('exp-list').innerHTML=emptyState('🧾','还没有明细',''); }
+  else{
+    const name=id=>{const m=members.find(x=>x.id===id); return m?m.name:'已删除';};
+    $('exp-list').innerHTML=expenses.slice().reverse().map(e=>{ const c=CAT(e.cat); return `
+      <div class="row">
+        <div class="av" style="background:${c.color}">${c.em}</div>
+        <div class="main"><b>${esc(e.title)}</b><small>${esc(name(e.payerId))} 垫付 · 分摊 ${e.parts.length}人 · 人均${yuan(e.amount/e.parts.length)}</small></div>
+        <div class="amt">${yuan(e.amount)}</div>
+        <button class="btn danger sm" style="width:auto;margin-left:8px" onclick="delExpense('${e.id}')">×</button>
+      </div>`;}).join('');
+  }
+}
+function renderSettlement(){
+  // 每人余额 = 垫付 - 应摊
+  const bal={}; members.forEach(m=>bal[m.id]=0);
+  expenses.forEach(e=>{
+    if(bal[e.payerId]!==undefined) bal[e.payerId]+=e.amount;
+    const share=e.amount/e.parts.length;
+    e.parts.forEach(p=>{ if(bal[p]!==undefined) bal[p]-=share; });
+  });
+  const name=id=>{const m=members.find(x=>x.id===id);return m?m.name:'?';};
+  let cred=[], debt=[];
+  Object.keys(bal).forEach(id=>{ const v=Math.round(bal[id]*100)/100; if(v>0.01)cred.push({id,v}); else if(v<-0.01)debt.push({id,v:-v}); });
+  cred.sort((a,b)=>b.v-a.v); debt.sort((a,b)=>b.v-a.v);
+  const tx=[]; let i=0,j=0;
+  while(i<debt.length&&j<cred.length){ const pay=Math.min(debt[i].v,cred[j].v);
+    tx.push({from:debt[i].id,to:cred[j].id,amt:pay}); debt[i].v-=pay; cred[j].v-=pay;
+    if(debt[i].v<0.01)i++; if(cred[j].v<0.01)j++; }
+  if(!expenses.length) return emptyState('💸','还没有花费','记账后自动算出谁该给谁');
+  if(!tx.length) return `<p class="muted" style="text-align:center;padding:10px">🎉 已经两清，没人需要转账</p>`;
+  return tx.map(t=>`<div class="settle"><span class="av" style="width:30px;height:30px;flex:0 0 30px;font-size:13px">${name(t.from).slice(0,1)}</span>
+    <b>${esc(name(t.from))}</b> <span class="ar">→</span> <b>${esc(name(t.to))}</b>
+    <span class="right amt" style="color:var(--crab)">${yuan(t.amt)}</span></div>`).join('');
+}
+
+/* ---------------- 行李清单 ---------------- */
+function renderPacking(){
+  initPacking();
+  $('pack-list').innerHTML=packing.map(it=>`
+    <div class="check">
+      <input type="checkbox" id="pk-${it.id}" ${packChecks[it.id]?'checked':''} onchange="togglePack('${it.id}',this.checked)"/>
+      <label for="pk-${it.id}">${esc(it.label)}</label>
+      ${it.fixed?'':`<button class="btn danger sm" style="width:auto" onclick="delPack('${it.id}')">×</button>`}
+    </div>`).join('');
+}
+window.togglePack=(id,v)=>{ packChecks[id]=v; LS.set('packChecks',packChecks); };
+window.delPack=id=>{ packing=packing.filter(p=>p.id!==id); LS.set('packing',packing); renderPacking(); };
+$('pack-add').addEventListener('click',()=>{ const v=$('pack-new').value.trim(); if(!v)return;
+  packing.push({id:uid(),label:v,fixed:false}); LS.set('packing',packing); $('pack-new').value=''; renderPacking(); });
+
+/* ---------------- 留言板 ---------------- */
+$('msg-send').addEventListener('click',async ()=>{
+  const name=$('msg-name').value.trim()||'匿名蟹友', text=$('msg-text').value.trim();
+  if(!text){ shake($('msg-text')); return; }
+  try{ applyState(await API.op({type:'addMessage',message:{id:uid(),name,text,ts:Date.now()}})); $('msg-text').value=''; renderMessages(); }
+  catch(e){ toast('发送失败'); }
+});
+function renderMessages(){
+  if(!messages.length){ $('msg-list').innerHTML=emptyState('💬','还没有留言','抢个沙发？'); return; }
+  const t=ts=>{const d=new Date(ts);return `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;};
+  $('msg-list').innerHTML=messages.slice().reverse().map(m=>`
+    <div class="msg"><div class="top"><span class="av" style="width:24px;height:24px;flex:0 0 24px;font-size:11px">${esc(m.name.slice(0,1))}</span>
+    <b>${esc(m.name)}</b><small>${t(m.ts)}</small></div><p>${esc(m.text)}</p></div>`).join('');
+}
+
+/* ---------------- 行程想法 ---------------- */
+$('note-add').addEventListener('click',async ()=>{
+  const name=$('note-name').value.trim()||'匿名蟹友';
+  const text=$('note-text').value.trim(); const tag=$('note-tag').value;
+  if(!text){ shake($('note-text')); return; }
+  try{ applyState(await API.op({type:'addNote',note:{id:uid(),name,text,tag,ts:Date.now()}})); $('note-text').value=''; renderTripNotes(); toast('想法已添加 💡'); }
+  catch(e){ toast('添加失败'); }
+});
+function renderTripNotes(){
+  const box=$('note-list'); if(!box) return;
+  if(!tripNotes.length){ box.innerHTML=emptyState('💡','还没有想法','第一个来提议：Day1 晚上去哪吃？'); return; }
+  const t=ts=>{const d=new Date(ts);return `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;};
+  box.innerHTML=tripNotes.slice().reverse().map(n=>`
+    <div class="msg"><div class="top">
+      <span class="av" style="width:24px;height:24px;flex:0 0 24px;font-size:11px">${esc(n.name.slice(0,1))}</span>
+      <b>${esc(n.name)}</b><span class="tagx" style="background:var(--roe);margin-left:5px">${esc(n.tag)}</span>
+      <small>${t(n.ts)}</small>
+      <button class="btn danger sm" style="width:auto;margin-left:6px;padding:3px 9px;min-height:0" onclick="delNote('${n.id}')">×</button>
+    </div><p>${esc(n.text)}</p></div>`).join('');
+}
+window.delNote=async id=>{ try{ applyState(await API.op({type:'delNote',id})); renderTripNotes(); }catch(e){ toast('删除失败'); } };
+
+/* ---------------- 首页统计 ---------------- */
+function renderHome(){
+  $('home-people').textContent=members.length;
+  $('home-cars').textContent=members.filter(m=>m.hasCar).length;
+  $('home-spent').textContent=yuan(expenses.reduce((s,e)=>s+e.amount,0));
+}
+
+/* ---------------- 小工具 ---------------- */
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function emptyState(em,t,s){return `<div class="empty"><div class="big">${em}</div><b>${t}</b>${s?'<br><small>'+s+'</small>':''}</div>`;}
+function shake(el){ el.style.borderColor='var(--bad)'; el.focus(); setTimeout(()=>el.style.borderColor='',900); }
+let toastT; function toast(msg){
+  let t=$('toast'); if(!t){ t=document.createElement('div'); t.id='toast';
+    t.style.cssText='position:fixed;left:50%;bottom:84px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:11px 20px;border-radius:999px;font-weight:700;font-size:14px;z-index:100;opacity:0;transition:.25s;box-shadow:0 8px 24px rgba(0,0,0,.3);max-width:88vw;text-align:center';
+    document.body.appendChild(t); }
+  t.textContent=msg; requestAnimationFrame(()=>{t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';});
+  clearTimeout(toastT); toastT=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';},1800);
+}
+
+/* 滚动浮现 */
+let io;
+function observeReveals(){
+  if(!io){ io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} }),{threshold:.12}); }
+  document.querySelectorAll('section.view.active .reveal:not(.in)').forEach(el=>io.observe(el));
+}
+
+/* 渲染服务器同步的部分（轮询时调用，不碰正在输入的表单控件） */
+function renderShared(){
+  renderHome(); renderVote(); renderExpense(); renderMessages(); renderTripNotes();
+  const vv=document.getElementById('view-vote');
+  if(vv && !vv.contains(document.activeElement)) refreshCarOptions();
+}
+
+/* 初始化 */
+renderPacking();              // 本机行李清单
+refreshCarOptions();          // 车辆下拉占位
+renderShared();               // 先渲染空状态
+observeReveals();
+sync();                       // 首次从服务器拉取
+syncT=setInterval(()=>sync(true), 4000);   // 每 4 秒自动同步
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) sync(true); }); // 回到前台立即同步
+</script>
+</body>
+</html>
