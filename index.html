@@ -351,7 +351,7 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;c
       <p class="muted" style="font-size:13.5px;margin-top:4px">节奏轻松、留足自由活动。酒店临金鸡湖，诚品书店 / 李公堤步行可达。时间仅供参考，想改随时说。</p>
     </div>
 
-    <div class="day-chip">Day 1 · 10.17 周五</div>
+    <div class="day-chip">Day 1 · 10.17 周六</div>
     <div class="timeline reveal">
       <div class="tl-item"><div class="tl-time">10:00</div><div class="bd"><b>两地集合出发</b><p>市区 / 金山分头出发，按投票拼车，车程约 1–1.5h</p></div></div>
       <div class="tl-item roe"><div class="tl-time">11:30</div><div class="bd"><b>阳澄湖 · 午餐 🦀</b><p>湖畔餐厅，开吃头一顿大闸蟹</p></div></div>
@@ -362,7 +362,7 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;c
       <div class="tl-item lake"><div class="tl-time">20:30</div><div class="bd"><b>酒店桌游之夜 🎲</b><p>回酒店开桌游，狼人杀 / 剧本 / 小游戏随意</p></div></div>
     </div>
 
-    <div class="day-chip d2">Day 2 · 10.18 周六</div>
+    <div class="day-chip d2">Day 2 · 10.18 周日</div>
     <div class="timeline reveal">
       <div class="tl-item lake"><div class="tl-time">自由</div><div class="bd"><b>上午自由活动</b><p>睡到自然醒、酒店早餐；想动的可逛金鸡湖 / 诚品，或泳池健身房</p></div></div>
       <div class="tl-item roe"><div class="tl-time">12:00</div><div class="bd"><b>周边聚餐午饭 · 退房</b><p>一起吃个午饭，退房准备返程</p></div></div>
@@ -562,14 +562,14 @@ const WMO = c => c===0?['☀️','晴']:c<=3?['⛅','多云']:c<=48?['🌫️','
 async function loadWeather(){
   const box=document.getElementById('weather');
   const fallback=()=>{box.innerHTML=
-    `<div class="wx"><div class="ico">🍂</div><b>10.17 周五</b><div class="t">18° / 25°</div><small>秋高气爽（参考值）</small></div>
-     <div class="wx"><div class="ico">🍂</div><b>10.18 周六</b><div class="t">17° / 24°</div><small>秋高气爽（参考值）</small></div>`;};
+    `<div class="wx"><div class="ico">🍂</div><b>10.17 周六</b><div class="t">18° / 25°</div><small>秋高气爽（参考值）</small></div>
+     <div class="wx"><div class="ico">🍂</div><b>10.18 周日</b><div class="t">17° / 24°</div><small>秋高气爽（参考值）</small></div>`;};
   try{
     const url='https://api.open-meteo.com/v1/forecast?latitude=31.43&longitude=120.78&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FShanghai&start_date=2026-10-17&end_date=2026-10-18';
     const r=await fetch(url); if(!r.ok) throw 0;
     const d=await r.json(); const dd=d.daily;
     if(!dd||!dd.time||!dd.time.length) throw 0;
-    const names=['周五','周六']; let html='';
+    const names=['周六','周日']; let html='';
     dd.time.forEach((t,i)=>{ const [em,txt]=WMO(dd.weather_code[i]);
       html+=`<div class="wx"><div class="ico">${em}</div><b>${t.slice(5).replace('-','.')} ${names[i]||''}</b>
              <div class="t">${Math.round(dd.temperature_2m_min[i])}° / ${Math.round(dd.temperature_2m_max[i])}°</div><small>${txt}</small></div>`;});
