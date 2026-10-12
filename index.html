@@ -231,6 +231,15 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;c
 .empty{text-align:center;color:var(--ink-soft);padding:22px 10px}
 .empty .big{font-size:40px;opacity:.5;margin-bottom:6px}
 
+/* 更新日志 */
+.log-entry{padding:2px 0}
+.log-entry + .log-entry{margin-top:14px;padding-top:14px;border-top:1px dashed var(--border)}
+.log-ver{font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--crab)}
+.log-ver .log-date{font-family:var(--font-body);font-weight:600;font-size:12px;color:var(--ink-soft);margin-left:8px}
+.log-entry ul{list-style:none;padding:0;margin:8px 0 0}
+.log-entry li{position:relative;padding:4px 0 4px 22px;font-size:13.5px;line-height:1.5}
+.log-entry li::before{content:"🦀";position:absolute;left:0;top:4px;font-size:12px}
+
 /* 底部导航 */
 .nav{position:fixed;left:0;right:0;bottom:0;z-index:50;
   background:color-mix(in srgb,var(--card) 88%,transparent);
@@ -302,6 +311,19 @@ button{font-family:var(--font-body);cursor:pointer;border:none;background:none;c
       <button class="card" data-go="trip"><div class="ic">🗺️</div><div><b>行程安排</b><small>两天时间轴</small></div></button>
       <button class="card" data-go="expense"><div class="ic">🧾</div><div><b>记账 AA</b><small>花费 / 结算</small></div></button>
       <button class="card" data-go="tools"><div class="ic">🧰</div><div><b>实用工具</b><small>清单 / 留言</small></div></button>
+    </div>
+
+    <div class="sec-title"><span class="em">📝</span>更新日志</div>
+    <div class="card reveal">
+      <div class="log-entry">
+        <div class="log-ver">v1.1<span class="log-date">2026.10.12</span></div>
+        <ul>
+          <li>应群友要求，更新了 18 日下午和晚上的行程</li>
+          <li>修复了行程页日期对应星期的 bug（10.17 周六 / 10.18 周日）</li>
+          <li>行李清单去掉了「蟹八件」</li>
+          <li>更新了「出发投票 + 拼车」的玩法和结果展示</li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -529,9 +551,16 @@ const CATS = [
 ];
 const CAT = k => CATS.find(c=>c.key===k)||CATS[5];
 
-const DEFAULT_PACK = ['身份证 / 驾照','手机 + 充电宝','换洗衣物','外套（湖边晚上凉）','舒适的鞋','常用药品','洗漱用品','现金 / 移动支付','相机','蟹八件 🦀'];
+const DEFAULT_PACK = ['身份证 / 驾照','手机 + 充电宝','换洗衣物','外套（湖边晚上凉）','舒适的鞋','常用药品','洗漱用品','现金 / 移动支付','相机'];
 function initPacking(){
   if(!packing){ packing = DEFAULT_PACK.map(l=>({id:uid(),label:l,fixed:true})); LS.set('packing',packing); }
+  // 一次性迁移：移除旧默认清单里的"蟹八件"（已打开过的设备也会自动去掉）
+  if(!LS.get('pack_mig_crab8', false)){
+    const before=packing.length;
+    packing=packing.filter(p=>!/蟹八件/.test(p.label));
+    if(packing.length!==before) LS.set('packing',packing);
+    LS.set('pack_mig_crab8', true);
+  }
 }
 
 /* ---------------- 导航 ---------------- */
